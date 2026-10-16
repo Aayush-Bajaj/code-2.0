@@ -25,6 +25,46 @@ export function renderResultsView() {
   const lowFormatted = totals.total.low.toLocaleString("en-IN", { maximumFractionDigits: 1 });
   const highFormatted = totals.total.high.toLocaleString("en-IN", { maximumFractionDigits: 1 });
 
+  function renderTableRows(lines, multiplier) {
+    return lines.map((line) => {
+      const co2e = (line.co2e_kg * multiplier).toLocaleString("en-IN", { maximumFractionDigits: 1 });
+      const low = line.low_kg * multiplier;
+      const high = line.high_kg * multiplier;
+      const val = line.co2e_kg * multiplier;
+
+      return `
+        <tr>
+          <td>
+            <div style="font-weight:600; color:var(--text-primary);">${line.category}</div>
+            ${line.flags?.includes("MAINTENANCE_WIDENED_RANGE")
+              ? `<div style="margin-top:3px;"><span class="badge badge-smoke-heavy">⚠️ Plume Opacity Maintenance Flag</span></div>`
+              : ""}
+          </td>
+          <td>
+            <span class="badge badge-scope${line.scope}">Scope ${line.scope}</span>
+          </td>
+          <td style="font-family:var(--font-mono); font-size:var(--text-xs);">
+            <b>${(line.activity_value * multiplier).toLocaleString("en-IN")}</b> ${line.activity_unit}
+          </td>
+          <td>
+            <!-- Evidence Trigger Button -->
+            <button class="btn-evidence-chip line-evidence-btn" data-line-id="${line.id}" title="Click to view full 7-step calculation evidence">
+              ${co2e} kg
+            </button>
+          </td>
+          <td>
+            ${renderRangeBar(low, val, high, "kg")}
+          </td>
+          <td style="text-align:right;">
+            <button class="btn btn-secondary btn-sm line-evidence-btn" data-line-id="${line.id}">
+              Audit Trail
+            </button>
+          </td>
+        </tr>
+      `;
+    }).join("");
+  }
+
   container.innerHTML = `
     <!-- Top Header & Period View Toggle -->
     <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-end; gap:var(--space-4); margin-bottom:var(--space-8);">
@@ -43,7 +83,7 @@ export function renderResultsView() {
           <span style="color:var(--border-strong);">•</span>
           <span style="display:inline-flex; align-items:center; gap:4px;">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-            ${periodLabel}
+            <span id="hero-period-label">${periodLabel}</span>
           </span>
         </div>
       </div>
@@ -69,23 +109,23 @@ export function renderResultsView() {
             <span style="font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.06em;">
               ${t("total_footprint")}
             </span>
-            <span class="badge badge-scope2" style="font-family:var(--font-mono);">
+            <span id="hero-period-badge" class="badge badge-scope2" style="font-family:var(--font-mono);">
               ${isYearly ? "tCO2e / yr" : "kg CO2e / mo"}
             </span>
           </div>
 
           <div style="font-size:clamp(2.5rem, 6vw, 3.5rem); font-weight:800; color:var(--brand-primary); line-height:1; margin-bottom:var(--space-3); font-family:var(--font-mono); letter-spacing:-0.03em;">
             <span id="hero-co2e-val" class="count-up-number">${co2eFormatted}</span>
-            <span style="font-size:var(--text-base); font-weight:600; color:var(--text-muted); letter-spacing:normal;">kg CO<sub>2</sub>e</span>
+            <span id="hero-unit-label" style="font-size:var(--text-base); font-weight:600; color:var(--text-muted); letter-spacing:normal;">kg CO<sub>2</sub>e</span>
           </div>
 
           <!-- Uncertainty Range Band Pill -->
           <div style="display:flex; align-items:center; gap:var(--space-2); background:var(--bg-subtle); border:1px solid var(--border-subtle); padding:6px 12px; border-radius:var(--radius-md); font-size:var(--text-xs); color:var(--text-secondary);">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
             <span><b>Uncertainty Band:</b></span>
-            <span style="font-family:var(--font-mono); font-weight:700; color:var(--text-primary);">${lowFormatted}</span>
+            <span id="hero-low-val" style="font-family:var(--font-mono); font-weight:700; color:var(--text-primary);">${lowFormatted}</span>
             <span>to</span>
-            <span style="font-family:var(--font-mono); font-weight:700; color:var(--text-primary);">${highFormatted}</span>
+            <span id="hero-high-val" style="font-family:var(--font-mono); font-weight:700; color:var(--text-primary);">${highFormatted}</span>
             <span>kg</span>
           </div>
         </div>
@@ -93,7 +133,7 @@ export function renderResultsView() {
         <!-- Equivalent Activity Box (API Derived Only) -->
         <div id="equivalents-box" style="margin-top:var(--space-5); padding-top:var(--space-3); border-top:1px solid var(--border-subtle); font-size:var(--text-xs); color:var(--text-secondary);">
           <div style="display:flex; align-items:center; gap:6px;">
-            <span>⚡ Loading factor equivalents from /meta/equivalents...</span>
+            <span>⚡ Calculating activity equivalents...</span>
           </div>
         </div>
       </div>
@@ -105,10 +145,10 @@ export function renderResultsView() {
             <span style="font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.06em;">
               ${t("data_confidence")}
             </span>
-            <span style="font-size:var(--text-xs); color:var(--text-secondary); cursor:help; display:inline-flex; align-items:center; gap:4px;" title="${confidence.formula}">
+            <button id="confidence-info-btn" style="background:none; border:none; padding:0; font-size:var(--text-xs); color:var(--text-secondary); cursor:pointer; display:inline-flex; align-items:center; gap:4px; text-decoration:underline; text-underline-offset:2px;" title="${confidence.formula}">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
               Calculation basis
-            </span>
+            </button>
           </div>
 
           <div style="display:flex; align-items:baseline; gap:var(--space-3); margin-bottom:var(--space-3);">
@@ -195,44 +235,8 @@ export function renderResultsView() {
               <th style="text-align:right;">Audit Trail</th>
             </tr>
           </thead>
-          <tbody>
-            ${state.baselineLines.map((line) => {
-              const co2e = (line.co2e_kg * totals.multiplier).toLocaleString("en-IN", { maximumFractionDigits: 1 });
-              const low = line.low_kg * totals.multiplier;
-              const high = line.high_kg * totals.multiplier;
-              const val = line.co2e_kg * totals.multiplier;
-
-              return `
-                <tr>
-                  <td>
-                    <div style="font-weight:600; color:var(--text-primary);">${line.category}</div>
-                    ${line.flags?.includes("MAINTENANCE_WIDENED_RANGE")
-                      ? `<div style="margin-top:3px;"><span class="badge badge-smoke-heavy">⚠️ Plume Opacity Maintenance Flag</span></div>`
-                      : ""}
-                  </td>
-                  <td>
-                    <span class="badge badge-scope${line.scope}">Scope ${line.scope}</span>
-                  </td>
-                  <td style="font-family:var(--font-mono); font-size:var(--text-xs);">
-                    <b>${(line.activity_value * totals.multiplier).toLocaleString("en-IN")}</b> ${line.activity_unit}
-                  </td>
-                  <td>
-                    <!-- Evidence Trigger Button -->
-                    <button class="btn-evidence-chip line-evidence-btn" data-line-id="${line.id}" title="Click to view full 7-step calculation evidence">
-                      ${co2e} kg
-                    </button>
-                  </td>
-                  <td>
-                    ${renderRangeBar(low, val, high, "kg")}
-                  </td>
-                  <td style="text-align:right;">
-                    <button class="btn btn-secondary btn-sm line-evidence-btn" data-line-id="${line.id}">
-                      Audit Trail
-                    </button>
-                  </td>
-                </tr>
-              `;
-            }).join("")}
+          <tbody id="emissions-tbody">
+            ${renderTableRows(state.baselineLines, totals.multiplier)}
           </tbody>
         </table>
       </div>
@@ -291,20 +295,127 @@ export function renderResultsView() {
     </div>
   `;
 
+  // Attach Evidence Click Listeners
+  function attachEvidenceListeners() {
+    container.querySelectorAll(".line-evidence-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const lineId = btn.getAttribute("data-line-id");
+        openEvidenceDrawer(lineId);
+      });
+    });
+  }
+  attachEvidenceListeners();
+
+  // Fetch /meta/equivalents asynchronously
+  function fetchEquivalents(co2eVal) {
+    api.getMetaEquivalents(co2eVal).then((eq) => {
+      const eqBox = container.querySelector("#equivalents-box");
+      if (eqBox && eq) {
+        eqBox.innerHTML = `
+          <div style="display:flex; flex-direction:column; gap:4px; font-size:11px;">
+            <div style="display:flex; align-items:center; gap:6px;">
+              <span style="color:var(--scope-1);">•</span>
+              <span>Equal to burning <b>${eq.diesel_litres.toLocaleString("en-IN", { maximumFractionDigits: 1 })} litres</b> of diesel fuel</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:6px;">
+              <span style="color:var(--brand-accent);">•</span>
+              <span>Equivalent to <b>${eq.grid_kwh.toLocaleString("en-IN", { maximumFractionDigits: 1 })} kWh</b> of grid electricity</span>
+            </div>
+          </div>
+        `;
+      }
+    });
+  }
+
+  // Reactive UI update function when Month/Year mode toggles
+  function updatePeriodUI() {
+    const curState = store.getState();
+    const curTotals = store.getTotals();
+    const curYearly = curState.periodView === "year";
+    const curLabel = curYearly ? "Annualized Baseline (12 Months)" : "Monthly Baseline (March 2024)";
+
+    // Update header label and badge
+    const periodLabelEl = container.querySelector("#hero-period-label");
+    if (periodLabelEl) periodLabelEl.textContent = curLabel;
+
+    const badgeEl = container.querySelector("#hero-period-badge");
+    if (badgeEl) badgeEl.textContent = curYearly ? "tCO2e / yr" : "kg CO2e / mo";
+
+    // Update buttons
+    const btnMonth = container.querySelector("#toggle-monthly-btn");
+    const btnYear = container.querySelector("#toggle-yearly-btn");
+    if (btnMonth && btnYear) {
+      if (!curYearly) {
+        btnMonth.className = "btn btn-sm btn-primary";
+        btnMonth.style.boxShadow = "var(--shadow-xs)";
+        btnMonth.style.background = "";
+        btnYear.className = "btn btn-sm btn-secondary";
+        btnYear.style.boxShadow = "";
+        btnYear.style.border = "none";
+        btnYear.style.background = "transparent";
+      } else {
+        btnMonth.className = "btn btn-sm btn-secondary";
+        btnMonth.style.boxShadow = "";
+        btnMonth.style.border = "none";
+        btnMonth.style.background = "transparent";
+        btnYear.className = "btn btn-sm btn-primary";
+        btnYear.style.boxShadow = "var(--shadow-xs)";
+        btnYear.style.background = "";
+      }
+    }
+
+    // Update hero numbers
+    const co2eEl = container.querySelector("#hero-co2e-val");
+    if (co2eEl) co2eEl.textContent = curTotals.total.co2e.toLocaleString("en-IN", { maximumFractionDigits: 1 });
+
+    const lowEl = container.querySelector("#hero-low-val");
+    if (lowEl) lowEl.textContent = curTotals.total.low.toLocaleString("en-IN", { maximumFractionDigits: 1 });
+
+    const highEl = container.querySelector("#hero-high-val");
+    if (highEl) highEl.textContent = curTotals.total.high.toLocaleString("en-IN", { maximumFractionDigits: 1 });
+
+    // Update table rows
+    const tbody = container.querySelector("#emissions-tbody");
+    if (tbody) {
+      tbody.innerHTML = renderTableRows(curState.baselineLines, curTotals.multiplier);
+      attachEvidenceListeners();
+    }
+
+    // Update Donut Chart
+    const canvas = container.querySelector("#scope-donut-canvas");
+    if (canvas) {
+      renderScopeDonut(canvas, curTotals.scope1.co2e, curTotals.scope2.co2e, curTotals.scope3.co2e);
+    }
+
+    // Update equivalents box
+    fetchEquivalents(curTotals.total.co2e);
+  }
+
   // Attach Month/Year Toggle Events
   container.querySelector("#toggle-monthly-btn")?.addEventListener("click", () => {
-    if (state.periodView !== "month") store.togglePeriodView();
-  });
-  container.querySelector("#toggle-yearly-btn")?.addEventListener("click", () => {
-    if (state.periodView !== "year") store.togglePeriodView();
+    if (store.getState().periodView !== "month") {
+      store.setState({ periodView: "month" });
+      updatePeriodUI();
+    }
   });
 
-  // Attach Evidence Click Listeners
-  container.querySelectorAll(".line-evidence-btn").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const lineId = btn.getAttribute("data-line-id");
-      openEvidenceDrawer(lineId);
-    });
+  container.querySelector("#toggle-yearly-btn")?.addEventListener("click", () => {
+    if (store.getState().periodView !== "year") {
+      store.setState({ periodView: "year" });
+      updatePeriodUI();
+    }
+  });
+
+  // Calculation Basis Modal/Alert
+  container.querySelector("#confidence-info-btn")?.addEventListener("click", () => {
+    alert(
+      "Data Confidence Score Formula:\\n\\n" +
+      "• 40% Verified Utility Invoices: Share of emissions backed by verified bills\\n" +
+      "• 35% SHA-256 Hashes: Cryptographic verification of original evidence files\\n" +
+      "• 25% Uncertainty Range Tightness: Tighter uncertainty bounds indicate higher measurement precision\\n\\n" +
+      "Total Score = " + confidence.score + "% (" + confidence.label + ")\\n" +
+      "Breakdown: " + confidence.breakdown.billScore + "/40 + " + confidence.breakdown.hashScore + "/35 + " + confidence.breakdown.rangeScore + "/25"
+    );
   });
 
   // Navigation Buttons
@@ -315,24 +426,8 @@ export function renderResultsView() {
     window.location.hash = "#/report";
   });
 
-  // Fetch /meta/equivalents asynchronously
-  api.getMetaEquivalents(totals.total.co2e).then((eq) => {
-    const eqBox = container.querySelector("#equivalents-box");
-    if (eqBox && eq) {
-      eqBox.innerHTML = `
-        <div style="display:flex; flex-direction:column; gap:4px; font-size:11px;">
-          <div style="display:flex; align-items:center; gap:6px;">
-            <span style="color:var(--scope-1);">•</span>
-            <span>Equivalent to <b>${eq.diesel_text}</b></span>
-          </div>
-          <div style="display:flex; align-items:center; gap:6px;">
-            <span style="color:var(--brand-accent);">•</span>
-            <span>Equivalent to <b>${eq.grid_text}</b></span>
-          </div>
-        </div>
-      `;
-    }
-  });
+  // Initial Equivalents Fetch
+  fetchEquivalents(totals.total.co2e);
 
   // Mount Donut Chart after DOM attachment
   setTimeout(() => {

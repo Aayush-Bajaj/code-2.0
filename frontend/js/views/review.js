@@ -347,7 +347,12 @@ export function renderReviewView() {
         load_pct: d.load_pct || 75.0,
       }));
 
-      const res = await api.calculate(bills, gensetPayload);
+      const billPayload = bills.map((b) => ({
+        ...b,
+        method: b.method || "ocr",
+      }));
+
+      const res = await api.calculate(billPayload, gensetPayload);
       if (res && res.emission_lines && res.emission_lines.length) {
         store.setBaselineLines(res.emission_lines);
       } else {

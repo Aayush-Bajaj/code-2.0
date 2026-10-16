@@ -43,6 +43,9 @@ export function initEvidenceDrawer() {
 }
 
 export function openEvidenceDrawer(lineId) {
+  if (!backdropEl || !panelEl) {
+    initEvidenceDrawer();
+  }
   const state = store.getState();
   currentLine = state.baselineLines.find((l) => l.id === lineId);
   if (!currentLine) {
@@ -55,8 +58,8 @@ export function openEvidenceDrawer(lineId) {
 
   renderDrawerContent(currentLine);
 
-  backdropEl.classList.add("open");
-  panelEl.classList.add("open");
+  if (backdropEl) backdropEl.classList.add("open");
+  if (panelEl) panelEl.classList.add("open");
   document.body.style.overflow = "hidden";
 
   // Focus trap: focus close button
@@ -70,9 +73,8 @@ export function openEvidenceDrawer(lineId) {
 }
 
 export function closeEvidenceDrawer() {
-  if (!panelEl) return;
-  backdropEl.classList.remove("open");
-  panelEl.classList.remove("open");
+  if (backdropEl) backdropEl.classList.remove("open");
+  if (panelEl) panelEl.classList.remove("open");
   document.body.style.overflow = "";
 
   // Reset route back to results if we were on deep-link

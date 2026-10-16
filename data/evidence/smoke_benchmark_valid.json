@@ -1,0 +1,16 @@
+{
+  "dataset_split": "valid",
+  "total_evaluated": 20,
+  "detection_recall_pct": 95.0,
+  "maintenance_flag_pct": 95.0,
+  "average_iou": 0.443,
+  "average_opacity_score": 9.39,
+  "color_distribution": {
+    "blue": 6,
+    "grey": 11,
+    "none": 1,
+    "black": 2
+  },
+  "average_latency_ms": 413.42,
+  "fps": 2.4
+}

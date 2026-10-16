@@ -1,0 +1,63 @@
+# Environment variables & secrets
+.env
+.env.*
+!.env.example
+*.env
+*.pem
+*.key
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+build/
+dist/
+*.egg-info/
+
+# Virtual Environments
+venv/
+.venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Node & Frontend dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Application Runtime, Caches & Generated Artifacts
+data/raw/
+data/uploads/
+data/cache/
+data/chroma/
+data/datasets/
+data/reports/*.pdf
+data/evidence/bills/
+data/evidence/frames/
+data/evidence/annotated/
+data/models/smoke_training/
+runs/
+
+# SQLite & Databases
+*.sqlite
+*.sqlite3
+*.db
+
+# OS and Editor files
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp
+*.swo

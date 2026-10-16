@@ -1,0 +1,12 @@
+# TEST DATA - ONLY FOR UNIT TESTS - DO NOT USE IN PRODUCTION
+factor_id,name,value,unit,source_name,source_url,year,notes
+diesel_mineral_l,Diesel (Stationary / Genset),3.0,kg CO2e per litre,Test Benchmark,https://example.com/factors,2024,Round number for test arithmetic
+petrol_mineral_l,Petrol (Commercial Vehicle),2.5,kg CO2e per litre,Test Benchmark,https://example.com/factors,2024,Round number for test arithmetic
+lpg_kg,LPG (Industrial),3.0,kg CO2e per kg,Test Benchmark,https://example.com/factors,2024,Round number for test arithmetic
+grid_india_wa,India Grid Electricity,0.8,kg CO2e per kWh,Test Benchmark,https://example.com/factors,2024,Round number for test arithmetic
+freight_hgv_avg_tkm,Road Freight Transport,0.1,kg CO2e per tonne-km,Test Benchmark,https://example.com/factors,2024,Round number for test arithmetic
+freight_rail_tkm,Rail Freight Transport,0.05,kg CO2e per tonne-km,Test Benchmark,https://example.com/factors,2024,Round number for test arithmetic
+genset_power_factor,Generator Standard Power Factor,0.8,dimensionless,Test Benchmark,https://example.com/factors,2024,kW = kVA x 0.8
+gen_fuel_tolerance_pct,Generator Fuel Tolerance,0.05,fraction,Test Benchmark,https://example.com/factors,2024,+- 5 percent tolerance
+gen_TEST_sfc_75,Test Generator SFC 75% Load,0.28,litres per kWh,Test Benchmark,https://example.com/factors,2024,0.28 L/kWh at 75% load
+gen_TEST_sfc_100,Test Generator SFC 100% Load,0.24,litres per kWh,Test Benchmark,https://example.com/factors,2024,0.24 L/kWh at 100% load

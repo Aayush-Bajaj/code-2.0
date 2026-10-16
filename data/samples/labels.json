@@ -1,0 +1,26 @@
+{
+  "generator_nosmoke.mp4": {
+    "machine_type": "diesel_generator",
+    "smoke_level": "none",
+    "smoke_color": "none",
+    "maintenance_flag": false,
+    "nameplate_text": null,
+    "source": "Pixabay stock clip"
+  },
+  "generator_blacksmoke.mp4": {
+    "machine_type": "diesel_generator",
+    "smoke_level": "heavy",
+    "smoke_color": "black",
+    "maintenance_flag": true,
+    "nameplate_text": null,
+    "source": "Pixabay stock clip"
+  },
+  "truck.mp4": {
+    "machine_type": "truck",
+    "smoke_level": "light",
+    "smoke_color": "grey",
+    "maintenance_flag": false,
+    "nameplate_text": null,
+    "source": "Pixabay stock clip"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "name": "carbon-passport",
+  "version": "1.0.0",
+  "description": "Carbon Passport - MSME Carbon Footprint & Evidence Trail",
+  "scripts": {
+    "dev": "python -m uvicorn backend.api.main:app --reload --port 8000",
+    "start": "python -m uvicorn backend.api.main:app --port 8000",
+    "test": "pytest tests -v"
+  }
+}

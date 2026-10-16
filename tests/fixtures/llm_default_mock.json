@@ -1,0 +1,9 @@
+{
+  "status": "mock",
+  "message": "Mock response for bill extraction and classification",
+  "supplier": "Tata Power Renewable",
+  "amount_inr": 45200.0,
+  "quantity": 5600.0,
+  "unit": "kWh",
+  "confidence_0_1": 0.95
+}

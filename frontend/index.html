@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Carbon Passport: Turn factory bills and videos into evidence-backed, buyer-ready carbon footprint numbers." />
+  <title>Carbon Passport — Factory Footprint & Evidence Trail</title>
+
+  <!-- Immediate Cache Invalidation & Service Worker Reset -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(regs => {
+        for (const r of regs) r.unregister();
+      });
+    }
+    if ('caches' in window) {
+      caches.keys().then(keys => {
+        for (const k of keys) caches.delete(k);
+      });
+    }
+  </script>
+
+  <!-- Modern Enterprise Typography (Inter & JetBrains Mono) with Zero-Flash Local Fallbacks -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- CSS Architecture -->
+  <style>
+    .estimate-banner, aside[role="note"], .brand-badge { display: none !important; height: 0 !important; visibility: hidden !important; margin: 0 !important; padding: 0 !important; }
+  </style>
+  <link rel="stylesheet" href="/css/tokens.css?v=3.0" />
+  <link rel="stylesheet" href="/css/base.css?v=3.3" />
+  <link rel="stylesheet" href="/css/components.css?v=3.5" />
+  <link rel="stylesheet" href="/css/motion.css?v=3.0" />
+</head>
+<body>
+  <!-- Accessibility: Skip Link -->
+  <a href="#app-root" class="skip-link">Skip to main content</a>
+
+
+  <!-- App Sticky Header -->
+  <header class="app-header">
+    <div class="container header-inner">
+      <a href="#/start" class="brand-logo" aria-label="Carbon Passport Home">
+        <span class="brand-icon-wrap">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
+            <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
+          </svg>
+        </span>
+        <span class="brand-title">Carbon Passport</span>
+      </a>
+
+      <!-- Primary Navigation -->
+      <nav class="header-nav" aria-label="Main Navigation">
+        <a href="#/start" class="nav-link" id="nav-start">Start</a>
+        <a href="#/upload" class="nav-link" id="nav-upload">Upload</a>
+        <a href="#/review" class="nav-link" id="nav-review">Review</a>
+        <a href="#/results" class="nav-link" id="nav-results">Results</a>
+        <a href="#/twin" class="nav-link" id="nav-twin">Digital Twin</a>
+        <a href="#/report" class="nav-link" id="nav-report">Report</a>
+        <a href="#/methods" class="nav-link" id="nav-methods">Methods</a>
+      </nav>
+
+      <!-- Language & Theme Switchers -->
+      <div class="header-controls">
+        <!-- Language Switcher -->
+        <div class="select-wrapper">
+          <select id="lang-select" class="header-select" aria-label="Select Language">
+            <option value="en">English (EN)</option>
+            <option value="hi">हिन्दी (HI)</option>
+          </select>
+        </div>
+
+        <!-- Theme Switcher -->
+        <div class="select-wrapper">
+          <select id="theme-select" class="header-select" aria-label="Select Theme Mode">
+            <option value="light">Light Theme</option>
+            <option value="dark">Dark Theme</option>
+            <option value="projector">Projector Mode</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Dynamic Application Root (Managed by Client-Side Router) -->
+  <main id="app-root" class="container" role="main" tabindex="-1">
+    <div style="text-align: center; padding: 4rem 0;">
+      <h2>Loading Carbon Passport...</h2>
+    </div>
+  </main>
+
+  <!-- App Footer -->
+  <footer class="app-footer">
+    <div class="container footer-inner">
+      <div class="footer-left">
+        <strong>Carbon Passport Enterprise</strong>
+        <span class="footer-dot">•</span>
+        <span>Verified Activity Evidence & Decarbonisation Digital Twin</span>
+        <span class="footer-dot">•</span>
+        <a href="#/methods" class="footer-link">Data & Methods Transparency ↗</a>
+      </div>
+
+      <!-- Live Page Weight Meter -->
+      <div class="page-weight-meter" title="Total resources transferred over network">
+        <span class="meter-dot"></span>
+        <span>Transfer Weight:</span>
+        <strong id="page-weight-val">&lt; 380 KB</strong>
+        <span class="meter-sub">(Target &lt; 1 MB)</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Local Bundled Chart.js (Zero CDN) -->
+  <script src="/vendor/chart.umd.min.js"></script>
+
+  <!-- Application Main ES Module -->
+  <script type="module" src="/js/main.js?v=3.6"></script>
+</body>
+</html>

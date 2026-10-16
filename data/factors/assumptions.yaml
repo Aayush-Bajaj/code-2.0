@@ -1,0 +1,38 @@
+# Carbon Passport - Scenario & Financial Assumptions
+# Sourced from official Indian regulatory filings, DISCOM tariff orders, and equipment benchmarks.
+
+# Rooftop solar installation capex in INR per kW (installed turnkey cost)
+solar_capex_inr_per_kw:
+  value: 48000.0
+  unit: "INR/kW"
+  source_note: "MNRE (Ministry of New and Renewable Energy) Commercial Benchmark 2024"
+
+# Annual solar yield generation in kWh per kW installed capacity per year in Western/Southern India
+solar_yield_kwh_per_kw_year:
+  value: 1460.0
+  unit: "kWh/kW/year"
+  source_note: "NREL PVWatts & SECI Western India Industrial Benchmark (4 kWh/kW/day)"
+
+# Industrial commercial grid electricity tariff in INR per kWh
+grid_tariff_inr_per_kwh:
+  value: 7.85
+  unit: "INR/kWh"
+  source_note: "MSEDCL Maharashtra Industrial HT-I Tariff Schedule FY 2023-24"
+
+# Commercial / industrial bulk diesel fuel price in INR per litre
+diesel_price_inr_per_litre:
+  value: 92.60
+  unit: "INR/litre"
+  source_note: "IOCL Pune MIDC Bulk Commercial Diesel Price Index March 2024"
+
+# Electric forklift upfront capital expenditure price premium over diesel/LPG forklift in INR
+electric_forklift_price_premium_inr:
+  value: 350000.0
+  unit: "INR"
+  source_note: "Godrej Material Handling 3.0T Electric vs Diesel Forklift Commercial Price Schedule"
+
+# Freight logistics mode shift cost difference: Rail freight vs Road freight cost difference per tonne-km
+rail_vs_road_freight_cost_difference_inr_per_tkm:
+  value: 0.85
+  unit: "INR/tkm"
+  source_note: "Ministry of Railways Freight Circular Rate vs All-India Truck Operators Association Survey"

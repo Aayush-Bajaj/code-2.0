@@ -1,0 +1,20 @@
+EUROPEAN COMMISSION - CARBON BORDER ADJUSTMENT MECHANISM (CBAM)
+GUIDANCE ON IMPLEMENTATION OF THE CBAM REGULATION (EU) 2023/956 FOR IMPORTERS AND INSTALLATION OPERATORS
+
+1. SCOPE AND APPLICABILITY
+The Carbon Border Adjustment Mechanism (CBAM) applies to specified goods imported into the customs territory of the European Union, including iron and steel, aluminium, cement, fertilisers, electricity, and hydrogen. During the transitional period (1 October 2023 to 31 December 2025), reporting declarants must submit quarterly CBAM reports documenting direct emissions (Scope 1) and indirect emissions (Scope 2) embedded in imported goods.
+
+2. DIRECT AND INDIRECT EMBEDDED EMISSIONS
+- Direct Emissions (Scope 1): Emissions from the production processes of goods, including emissions from the production of heating and cooling consumed during production processes, regardless of the location of the production of the heating or cooling. Direct emissions primarily arise from fuel combustion in stationary equipment (such as boilers, furnaces, and diesel power generators) and industrial chemical reactions.
+- Indirect Emissions (Scope 2): Emissions from the generation of electricity consumed during the production processes of goods. For installations operating in third countries such as India, indirect emissions must be calculated based on grid average emission factors published by competent authorities (such as the Central Electricity Authority of India) or specific supplier contracts where verified.
+
+3. METHODOLOGY AND ACTIVITY DATA
+Emissions must be calculated by multiplying verified activity data (such as fuel consumption in litres or tonnes, and electricity consumption in megawatt-hours or kilowatt-hours) by the corresponding specific greenhouse gas emission factor:
+  Emissions (kg CO2e) = Activity Data x Emission Factor
+Where multiple production routes or fuels are utilized, emissions from each source stream must be aggregated across the installation boundary.
+
+4. ACTUAL VALUES VERSUS DEFAULT VALUES
+The CBAM regulation strongly prioritizes actual installation-level data over country-level default values. Installation operators in exporting countries are encouraged to monitor and record actual fuel consumption, generator operating hours, and electricity invoices with traceable audit documentation. Default values published by the Commission may only be used under limited conditions during the transitional phase.
+
+5. VERIFICATION AND TRACEABILITY
+While accredited third-party verification is voluntary during the initial quarters of the transitional period, declarants and operators must maintain a transparent evidence trail linking reported figures to underlying invoices, metering logs, equipment nameplates, and calculation sheets. The software output supports the data these frameworks request and facilitates supply chain emissions data exchange without constituting a formal regulatory certification or third-party verification audit.

@@ -1,0 +1,30 @@
+# TEST DATA - ONLY FOR UNIT TESTS
+solar_capex_inr_per_kw:
+  value: 45000.0
+  unit: "INR/kW"
+  source_note: "Test benchmark"
+
+solar_yield_kwh_per_kw_year:
+  value: 1500.0
+  unit: "kWh/kW/year"
+  source_note: "Test benchmark"
+
+grid_tariff_inr_per_kwh:
+  value: 8.0
+  unit: "INR/kWh"
+  source_note: "Test benchmark"
+
+diesel_price_inr_per_litre:
+  value: 90.0
+  unit: "INR/litre"
+  source_note: "Test benchmark"
+
+electric_forklift_price_premium_inr:
+  value: 400000.0
+  unit: "INR"
+  source_note: "Test benchmark"
+
+rail_vs_road_freight_cost_difference_inr_per_tkm:
+  value: 1.5
+  unit: "INR/tkm"
+  source_note: "Test benchmark"

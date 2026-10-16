@@ -1,0 +1,91 @@
+/* ==========================================================================
+   motion.css — Animation & Motion System
+   Strict rule: Max one prominent animation draws attention per screen at a time.
+   Full prefers-reduced-motion compliance.
+   ========================================================================== */
+
+/* Fade in for screen transitions */
+.fade-in {
+  animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Gentle Hero CTA pulse */
+.pulse-subtle {
+  animation: pulseSubtle 3s ease-in-out infinite;
+}
+
+@keyframes pulseSubtle {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
+  }
+}
+
+/* Warning maintenance badge pulse */
+@keyframes pulse-maint {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.75; }
+}
+
+/* Staged node illumination */
+.chain-node.lit-pop {
+  animation: nodePop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes nodePop {
+  0% { transform: scale(0.8); opacity: 0.5; }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Hash checkmark animation */
+.checkmark-spin {
+  animation: checkmarkPop 0.5s ease-out forwards;
+}
+
+@keyframes checkmarkPop {
+  0% { transform: scale(0) rotate(-45deg); opacity: 0; }
+  70% { transform: scale(1.2) rotate(10deg); }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+/* Number Counter Transition */
+.count-up-number {
+  transition: all 0.3s ease;
+  font-variant-numeric: tabular-nums;
+}
+
+/* --------------------------------------------------------------------------
+   Accessibility: prefers-reduced-motion
+   Turn off all canvas particle loops, transitions, and pulsing effects.
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .pulse-subtle,
+  .badge-smoke-heavy,
+  .chain-node.lit-pop,
+  .checkmark-spin,
+  .fade-in {
+    animation: none !important;
+    box-shadow: none !important;
+  }
+}
